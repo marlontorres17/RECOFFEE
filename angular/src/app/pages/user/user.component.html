@@ -1,0 +1,75 @@
+<body>
+  <div class="container">
+      <h2 class="title">Users</h2>
+    
+      <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)" class="form">
+        <input type="hidden" name="id" [(ngModel)]="user.id">
+    
+        <div class="form-group">
+          <label for="userName">User Name:</label>
+          <input type="text" id="userName" name="userName" [(ngModel)]="user.userName" required class="input-field">
+        </div>
+    
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" [(ngModel)]="user.password" required class="input-field">
+        </div>
+    
+        <div class="form-group">
+          <label for="personId">Person:</label>
+          <mat-form-field appearance="fill" class="custom-form-field">
+            <mat-label>Select Person</mat-label>
+            <mat-select id="personId" name="personId" [(ngModel)]="user.personId" required>
+              <mat-select-trigger>
+                {{ getPersonName(user.personId) }}
+              </mat-select-trigger>
+              <mat-option *ngFor="let person of persons" [value]="person.id">
+                {{ person.firtsName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+    
+        <div class="form-group">
+          <label for="state">State:</label>
+          <input type="checkbox" id="state" name="state" [(ngModel)]="user.state" class="checkbox-field">
+        </div>
+    
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    
+      <div class="table-wrapper">
+        <table *ngIf="users.length > 0" id="usersTable" class="table">
+          <thead>
+            <tr>
+              <th>UserName</th>
+              <th>Password</th>
+              <th>Person</th>
+              <th>State</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td data-label="UserName">{{ user.userName }}</td>
+              <td data-label="Password">{{ user.password }}</td>
+              <td data-label="Person">{{ getPersonName(user.personId) }}</td>
+              <td data-label="State">{{ user.state ? 'Active' : 'Inactive' }}</td>
+              <td data-label="Actions">
+                <button class="btn-icon edit" (click)="editUser(user)" title="Edit">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon delete" (click)="deleteUser(user.id)" title="Delete">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+      <p *ngIf="users.length === 0" class="no-results">No users found.</p>
+  </div>
+  
+  </body>
+  

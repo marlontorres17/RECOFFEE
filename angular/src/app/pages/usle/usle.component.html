@@ -1,0 +1,71 @@
+<body>
+  <div class="container">
+      <h2 class="title">User Roles</h2>
+    
+      <form #usleForm="ngForm" (ngSubmit)="onSubmit(usleForm)" class="form">
+        <input type="hidden" name="id" [(ngModel)]="userRole.id">
+    
+        <div class="form-group">
+          <label for="userId">User:</label>
+          <mat-form-field appearance="fill" class="custom-form-field">
+            <mat-label>Select User</mat-label>
+            <mat-select id="userId" name="userId" [(ngModel)]="userRole.userId" required>
+              <mat-option *ngFor="let user of users" [value]="user.id">
+                {{ user.userName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+    
+        <div class="form-group">
+          <label for="roleId">Role:</label>
+          <mat-form-field appearance="fill" class="custom-form-field">
+            <mat-label>Select Role</mat-label>
+            <mat-select id="roleId" name="roleId" [(ngModel)]="userRole.roleId" required>
+              <mat-option *ngFor="let role of roles" [value]="role.id">
+                {{ role.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+    
+        <div class="form-group">
+          <label for="state">State:</label>
+          <input type="checkbox" id="state" name="state" [(ngModel)]="userRole.state" class="checkbox-field">
+        </div>
+    
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    
+      <div class="table-wrapper">
+        <table *ngIf="userRoles.length > 0" id="userRolesTable" class="table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Role</th>
+              <th>State</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let userRole of userRoles">
+              <td data-label="User">{{ getUserName(userRole.userId) }}</td>
+              <td data-label="Role">{{ getRoleName(userRole.roleId) }}</td>
+              <td data-label="State">{{ userRole.state ? 'Active' : 'Inactive' }}</td>
+              <td data-label="Actions">
+                <button class="btn-icon edit" (click)="editUserRole(userRole)" title="Edit">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon delete" (click)="deleteUserRole(userRole.id)" title="Delete">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+      <p *ngIf="userRoles.length === 0" class="no-results">No user roles found.</p>
+  </div>
+  </body>
+  

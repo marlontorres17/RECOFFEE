@@ -1,0 +1,69 @@
+<body>
+  <div class="container">
+      <h2 class="title">Role Views</h2>
+    
+      <form #roleViewForm="ngForm" (ngSubmit)="onSubmit(roleViewForm)" class="form">
+        <input type="hidden" name="id" [(ngModel)]="roleView.id">
+    
+        <div class="form-group">
+          <mat-form-field appearance="fill" class="custom-form-field">
+            <mat-label>Role</mat-label>
+            <mat-select id="roleId" name="roleId" [(ngModel)]="roleView.roleId" required>
+              <mat-option *ngFor="let role of roles" [value]="role.id">
+                {{ role.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+    
+        <div class="form-group">
+          <mat-form-field appearance="fill" class="custom-form-field">
+            <mat-label>View</mat-label>
+            <mat-select id="viewId" name="viewId" [(ngModel)]="roleView.viewId" required>
+              <mat-option *ngFor="let view of views" [value]="view.id">
+                {{ view.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+    
+        <div class="form-group">
+          <label for="state">State:</label>
+          <input type="checkbox" id="state" name="state" [(ngModel)]="roleView.state" class="checkbox-field">
+        </div>
+    
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    
+      <div class="table-wrapper">
+        <table *ngIf="roleViews.length > 0" id="roleViewsTable" class="table">
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th>View</th>
+              <th>State</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let roleView of roleViews">
+              <td data-label="Role">{{ getRoleName(roleView.roleId) }}</td>
+              <td data-label="View">{{ getViewName(roleView.viewId) }}</td>
+              <td data-label="State">{{ roleView.state ? 'Active' : 'Inactive' }}</td>
+              <td data-label="Actions">
+                <button class="btn-icon edit" (click)="editRoleView(roleView)" title="Edit">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon delete" (click)="deleteRoleView(roleView.id)" title="Delete">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+      <p *ngIf="roleViews.length === 0" class="no-results">No role views found.</p>
+  </div>
+  </body>
+  

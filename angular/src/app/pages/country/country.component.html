@@ -1,0 +1,51 @@
+<body>
+    <div class="container">
+        <h2 class="title">Countrys</h2>
+    
+        <form #countryForm="ngForm" (ngSubmit)="onSubmit(countryForm)" class="form">
+            <input type="hidden" name="id" [(ngModel)]="country.id">
+    
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" [(ngModel)]="country.name" required class="input-field">
+                <i class="icon icon-user"></i>
+            </div>
+    
+            
+    
+            <div class="form-group">
+                <label for="state">State:</label>
+                <input type="checkbox" id="state" name="state" [(ngModel)]="country.state">
+                <i class="icon icon-state"></i>
+            </div>
+    
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    
+        <table *ngIf="countrys.length > 0" id="countrysTable" class="display table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>State</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let country of countrys">
+                    <td data-label="Name">{{ country.name }}</td>
+                    <td data-label="State">{{ country.state ? 'Active' : 'Inactive' }}</td>
+                    <td data-label="Actions">
+                        <button class="btn-icon edit" (click)="editCountry(country)" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon delete" (click)="deleteCountry(country.id)" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    
+        <p *ngIf="countrys.length === 0">No countrys found.</p>
+    </div>
+</body>
